@@ -2,7 +2,7 @@ import { Center, Text } from "native-base"
 
 const SettingsScreen = () => {
     return (
-        <Center>
+        <Center flex="1"> 
             <Text>Settings Screen</Text>
         </Center>
     )

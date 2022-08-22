@@ -1,0 +1,18 @@
+{
+  "md.sys.color.primary": {
+    "nativeBase": "secondary.700",
+    "hex": "#be185d"
+  },
+  "md.sys.color.primary-container": {
+    "nativeBase": "secondary.50",
+    "hex": "#fdf2f8"
+  },
+  "md.sys.color.secondary": {
+    "nativeBase": "emerald.800",
+    "hex": "#065f46"
+  },
+  "md.sys.color.secondary-container": {
+    "nativeBase": "emerald.200",
+    "hex": "#a7f3d0"
+  }
+}

@@ -1,5 +1,5 @@
 // React Navigation
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 
 // Native Base
@@ -8,18 +8,34 @@ import { NativeBaseProvider } from "native-base";
 // Expo
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
+// Theme
+import colors from "./theme/colors.json"
+
 // Screens
 import AddWineScreen from "./screens/AddWineScreen";
 import SettingsScreen from "./screens/SettingsScreen";
 import WinesOverviewScreen from "./screens/WinesOverviewScreen";
 
+// Create Navigation Tabs
 const Tab = createMaterialBottomTabNavigator();
+
+// Set theme Navigation tabs
+const theme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    background: colors["md.sys.color.primary-container"].hex
+  }
+}
+
 
 export default function App() {
   return (
     <NativeBaseProvider>
-      <NavigationContainer>
-        <Tab.Navigator>
+      <NavigationContainer theme={theme}>
+        <Tab.Navigator barStyle={{
+          backgroundColor: colors["md.sys.color.primary"].hex
+        }}>
           <Tab.Screen
             name="Settings"
             component={SettingsScreen}
