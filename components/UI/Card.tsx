@@ -22,11 +22,28 @@ const Card = () => {
               alt="Flag spain"
               size="2xs"
             ></Image> */}
-            <Text fontSize="3xl" fontWeight="semibold" isTruncated>
+            <Text
+              fontWeight="semibold"
+              isTruncated
+              _ios={{
+                fontSize: "2xl",
+              }}
+              _android={{
+                fontSize: "3xl",
+              }}
+            >
               Rioja (2002)
             </Text>
           </HStack>
-          <Text fontSize="xl" lineHeight="2xl">
+          <Text
+            lineHeight="2xl"
+            _ios={{
+              fontSize: "md",
+            }}
+            _android={{
+              fontSize: "xl",
+            }}
+          >
             Tempranillo, Red
           </Text>
           <Text>Red meat, hard cheeses</Text>
