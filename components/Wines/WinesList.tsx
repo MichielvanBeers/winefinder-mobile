@@ -1,5 +1,5 @@
 // React Native
-import { ListRenderItemInfo } from "react-native";
+import { ListRenderItem } from "react-native";
 
 // NativeBase
 import { Button, Text, FlatList } from "native-base";
@@ -26,7 +26,11 @@ const WinesList = () => {
     });
   };
 
-  console.log(data)
+  const renderItem = ({ item }: { item: Wine }) => {
+    return <Card header={item.name} subHeader={item.year} body={item.price} />;
+  };
+
+  console.log(data);
 
   return (
     <>
@@ -36,9 +40,7 @@ const WinesList = () => {
         <FlatList
           data={data}
           keyExtractor={(item: any) => item.id}
-          renderItem={({ item }: Wine) => {
-            <Card header={item.name} subHeader={item.year} body={item.price} />;
-          }}
+          renderItem={renderItem}
         />
       ) : (
         <Text>No data available</Text>

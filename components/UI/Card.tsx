@@ -6,9 +6,9 @@ import colors from "../../theme/colors.json";
 
 // Typescript types
 type Card = {
-  header: string;
-  subHeader: string;
-  body: string;
+  header?: string;
+  subHeader?: string;
+  body?: string;
 } 
 
 const Card: React.FC<Card> = (props) => {
@@ -32,7 +32,7 @@ const Card: React.FC<Card> = (props) => {
                 fontSize: "3xl",
               }}
             >
-              {props.header}
+              {props.header ? props.header : null}
             </Text>
           </HStack>
           <Text
@@ -44,9 +44,9 @@ const Card: React.FC<Card> = (props) => {
               fontSize: "xl",
             }}
           >
-            {props.subHeader}
+            {props.subHeader ? props.subHeader : null}
           </Text>
-          <Text>{props.body}</Text>
+          <Text>{props.body ? props.body : null}</Text>
         </VStack>
       </Box>
     </View>
