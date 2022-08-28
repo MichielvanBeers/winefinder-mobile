@@ -1,10 +1,17 @@
 // Native Base
-import { Text, Box, View, VStack, HStack, Image } from "native-base";
+import { Text, Box, View, VStack, HStack } from "native-base";
 
 // Theme
 import colors from "../../theme/colors.json";
 
-const Card = () => {
+// Typescript types
+type Card = {
+  header: string;
+  subHeader: string;
+  body: string;
+} 
+
+const Card: React.FC<Card> = (props) => {
   return (
     <View px="4" py="2" width="100%">
       <Box
@@ -15,13 +22,6 @@ const Card = () => {
       >
         <VStack m="4">
           <HStack>
-            {/* <Image
-              source={{
-                uri: "https://flagcdn.com/w40/es.png",
-              }}
-              alt="Flag spain"
-              size="2xs"
-            ></Image> */}
             <Text
               fontWeight="semibold"
               isTruncated
@@ -32,7 +32,7 @@ const Card = () => {
                 fontSize: "3xl",
               }}
             >
-              Rioja (2002)
+              {props.header}
             </Text>
           </HStack>
           <Text
@@ -44,9 +44,9 @@ const Card = () => {
               fontSize: "xl",
             }}
           >
-            Tempranillo, Red
+            {props.subHeader}
           </Text>
-          <Text>Red meat, hard cheeses</Text>
+          <Text>{props.body}</Text>
         </VStack>
       </Box>
     </View>

@@ -1,45 +1,53 @@
 // React
 import { useState } from "react";
 
-// export type requestConfig = {
-//   url: RequestInfo;
-//   method: string;
-//   headers?: {};
-//   body?: string;
-// };
+export type requestConfig = {
+  method?: string;
+  headers?: {};
+  body?: string;
+};
 
 export type fetchStatus = {
   loading: boolean;
-  error?: boolean;
   data?: any;
+  error?: string;
 };
 
 const useFetch = () => {
   const [fetchStatus, setFetchStatus] = useState<fetchStatus>({
     loading: false,
-    data: "",
-    error: false
+    data: undefined,
+    error: undefined
   });  
 
-  const fetchData = async (url: string) => {
+  const fetchData = async (url: string, requestConfig: requestConfig) => {
     setFetchStatus({
       loading: true,
     });
 
-    fetch(url)
-      .then((response) => response.json())
+    fetch(url, requestConfig)
+      .then((response) => {
+        if (!response.ok) {
+          return response.json()
+          .then((response) => {
+            console.log(response)
+            throw new Error( response.detail )
+          })
+        }
+        else {
+          return response.json()
+        }
+      })
       .then((response) => {
         setFetchStatus({
           loading: false,
-          data: response.fact,
-          error: false
+          data: response,
         });
       })
       .catch((error) => {
-        // console.log(error)
         setFetchStatus({
           loading: false,
-          error: true,
+          error: error,
         }
         )
       });
