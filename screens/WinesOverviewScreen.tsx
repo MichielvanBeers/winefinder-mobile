@@ -8,7 +8,7 @@ const WinesOverviewScreen = () => {
 
 
   return (
-    <Center flex="1">
+    <Center flex="1" justifyContent="flex-start">
       <WinesList />
     </Center>
   );

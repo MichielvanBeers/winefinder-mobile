@@ -1,8 +1,5 @@
-// React Native
-import { ListRenderItem } from "react-native";
-
 // NativeBase
-import { Button, Text, FlatList } from "native-base";
+import { Text, FlatList, View } from "native-base";
 
 // Hooks
 import useFetch from "../../hooks/use-fetch";
@@ -10,13 +7,17 @@ import useFetch from "../../hooks/use-fetch";
 // Components
 import Card from "../UI/Card";
 
+// Utils
+import concatWineAttributes from "../../utils/concatWineAttributes";
+
 // Typescript types
 import { Wine } from "../../store/wines";
+import { useEffect } from "react";
 
 const WinesList = () => {
   const { loading, error, data, fetchData } = useFetch();
 
-  const fetchDataHandler = () => {
+  const fetchWines = () => {
     fetchData("http://192.168.1.184:9000/wines/", {
       method: "GET",
       headers: {
@@ -26,26 +27,37 @@ const WinesList = () => {
     });
   };
 
-  const renderItem = ({ item }: { item: Wine }) => {
-    return <Card header={item.name} subHeader={item.year} body={item.price} />;
-  };
+  useEffect(() => {
+    fetchWines();
+  }, []);
 
-  console.log(data);
+  const renderItem = ({ item }: { item: Wine }) => {
+    return (
+      <Card
+        header={concatWineAttributes(item.name, item.year)}
+        subHeader={concatWineAttributes(item.grape, item.type)}
+        body={concatWineAttributes(item.country, item.archived_date, item.price)}
+      />
+    );
+  };
 
   return (
     <>
-      <Text>{loading ? <Text>Loading</Text> : <Text>NOT loading</Text>}</Text>
-      <Button onPress={fetchDataHandler}>Load data</Button>
-      {data ? (
-        <FlatList
-          data={data}
-          keyExtractor={(item: any) => item.id}
-          renderItem={renderItem}
-        />
-      ) : (
-        <Text>No data available</Text>
-      )}
-      {error ? <Text>{String(error)}</Text> : null}
+      <View width="100%">
+        <Text>{loading ? <Text>Loading</Text> : null}</Text>
+        {data ? (
+          <FlatList
+            data={data}
+            keyExtractor={(item: any) => item.id}
+            renderItem={renderItem}
+            onRefresh={fetchWines}
+            refreshing={loading}
+          />
+        ) : (
+          <Text>No data available</Text>
+        )}
+        {error ? <Text>{String(error)}</Text> : null}
+      </View>
     </>
   );
 };

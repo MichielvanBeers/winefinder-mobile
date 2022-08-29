@@ -1,5 +1,5 @@
 // Native Base
-import { NativeBaseProvider } from "native-base";
+import { NativeBaseProvider, StatusBar } from "native-base";
 
 // React redux toolkit
 import { Provider } from "react-redux";
@@ -11,6 +11,7 @@ import Index from "./screens/Index";
 export default function App() {
   return (
     <Provider store={store}>
+      <StatusBar />
       <NativeBaseProvider>
         <Index />
       </NativeBaseProvider>
