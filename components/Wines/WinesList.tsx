@@ -35,8 +35,8 @@ const WinesList = () => {
     return (
       <Card
         header={concatWineAttributes(item.name, item.year)}
-        subHeader={concatWineAttributes(item.grape, item.type)}
-        body={concatWineAttributes(item.country, item.archived_date, item.price)}
+        subHeader={concatWineAttributes(item.grape, item.region)}
+        body={concatWineAttributes(item.price, item.score, item.tag)}
       />
     );
   };

@@ -1,24 +1,31 @@
-import { Grape, Type, Tag, Food, Region, Allergen} from "../store/wines"
+import { Grape, Type, Tag, Food, Region, Allergen } from "../store/wines";
 
-const concatWineAttributes = (...attributes: (Grape | Type | Tag | Food | Region | Allergen | string | undefined)[]) => {
-    let wineAttributes: string[] = [] 
+type wineAttributes = (
+  | Type[]
+  | Tag[]
+  | Food[]
+  | Region[]
+  | Allergen[]
+  | Grape[]
+  | string
+  | undefined
+)[];
 
-    for (const attribute of Object.values(attributes)) {
+const concatWineAttributes = (...attributes: wineAttributes) => {
+  let wineAttributes: string[] = [];
 
-        if (Array.isArray(attribute)){
-            const values = attribute.map(value => String(value.name))
-            wineAttributes.push(...values)
-        }
+  for (const attribute of Object.values(attributes)) {
+    if (Array.isArray(attribute)) {
+      const values = attribute.map((value) => String(value.name));
+      wineAttributes.push(...values);
+    } else if (typeof attribute == "string") {
+      wineAttributes.push(attribute);
+    } else if (typeof attribute == "number") {
+      wineAttributes.push(String(attribute));
+    }
+  }
 
-        else if (typeof(attribute) == 'string') {
-            wineAttributes.push(attribute)
-        }
-        else if (typeof(attribute) == 'number'){
-            wineAttributes.push(String(attribute))
-        }
-    } 
+  return wineAttributes.join(", ");
+};
 
-    return wineAttributes.join(', ')
-}
-
-export default concatWineAttributes
+export default concatWineAttributes;
