@@ -28,6 +28,7 @@ jobs:
         uses: expo/expo-github-action@v7
         with:
           expo-version: 5.5.1
+          eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
           
       - name: 📦 Install dependencies
