@@ -27,11 +27,9 @@ const useFetch = () => {
 
     fetch(url, requestConfig)
       .then((response) => {
-        if (!response.ok) {
-          return response.json()
+        if (!response.ok) {return response.json()
           .then((response) => {
-            console.log(response)
-            throw new Error( response.detail )
+            throw new Error(response.detail)
           })
         }
         else {

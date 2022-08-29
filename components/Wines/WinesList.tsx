@@ -1,11 +1,12 @@
 // NativeBase
-import { Text, FlatList, View } from "native-base";
+import { Text, FlatList, View, Center } from "native-base";
 
 // Hooks
 import useFetch from "../../hooks/use-fetch";
 
 // Components
 import Card from "../UI/Card";
+import ErrorComponent from "../Error/ErrorComponent";
 
 // Utils
 import concatWineAttributes from "../../utils/concatWineAttributes";
@@ -23,6 +24,7 @@ const WinesList = () => {
       headers: {
         "Content-Type": "application/json",
         Authorization: "Token 70574d887b0644a0936e07ddb1869762318b8e25",
+        // Authorization: "Token ",
       },
     });
   };
@@ -41,25 +43,31 @@ const WinesList = () => {
     );
   };
 
-  return (
-    <>
-      <View width="100%">
-        <Text>{loading ? <Text>Loading</Text> : null}</Text>
-        {data ? (
-          <FlatList
-            data={data}
-            keyExtractor={(item: any) => item.id}
-            renderItem={renderItem}
-            onRefresh={fetchWines}
-            refreshing={loading}
-          />
-        ) : (
-          <Text>No data available</Text>
-        )}
-        {error ? <Text>{String(error)}</Text> : null}
-      </View>
-    </>
+  const dataView = (
+    <FlatList
+      data={data}
+      keyExtractor={(item: any) => item.id}
+      renderItem={renderItem}
+      onRefresh={fetchWines}
+      refreshing={loading}
+    />
   );
+  const errorView = (
+    <Center flex="1">
+      <ErrorComponent message={error} />
+    </Center>
+  );
+  const loadingView = (
+    <Center flex="1">
+      <Text>Loading...</Text>
+    </Center>
+  );
+
+  return <View width="100%" flex="1">
+    {error && errorView}
+    {loading && loadingView}
+    {data && dataView}
+  </View>;
 };
 
 export default WinesList;
