@@ -1,16 +1,18 @@
 // Native Base
-import { Text, VStack, Image, Heading } from "native-base";
+import { Text, VStack, Image, Heading, Button } from "native-base";
 
 // Theme
 import colors from "../../theme/colors.json";
 
 type ErrorMessage = {
   header?: string;
-  body?: string
+  body?: string;
+  buttonText?: string;
+  onButtonPress?: () => void;
 };
 
 const ErrorComponent: React.FC<ErrorMessage> = (props) => {
-  const errorHeaderString = String(props.header)
+  const errorHeaderString = String(props.header);
   const errorBodyString = String(props.body);
 
   return (
@@ -20,7 +22,9 @@ const ErrorComponent: React.FC<ErrorMessage> = (props) => {
         alt="Error Image"
         size="xl"
       />
-      <Heading color={colors["md.sys.color.primary"].nativeBase}>{errorHeaderString}</Heading>
+      <Heading color={colors["md.sys.color.primary"].nativeBase}>
+        {errorHeaderString}
+      </Heading>
       <Text
         textAlign="center"
         color={colors["md.sys.color.primary"].nativeBase}
@@ -28,13 +32,17 @@ const ErrorComponent: React.FC<ErrorMessage> = (props) => {
       >
         {errorBodyString}
       </Text>
+      {props.onButtonPress ? (
+        <Button px="6" backgroundColor={colors["md.sys.color.primary"].nativeBase} borderRadius="3xl" onPress={props.onButtonPress}>{props.buttonText}</Button>
+      ) : null}
     </VStack>
   );
 };
 
 ErrorComponent.defaultProps = {
   header: "Error",
-  body: "Something went wrong"
-}
+  body: "Something went wrong",
+  buttonText: "Retry",
+};
 
 export default ErrorComponent;

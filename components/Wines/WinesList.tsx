@@ -1,5 +1,5 @@
 // NativeBase
-import { Text, FlatList, View, Center } from "native-base";
+import { Text, FlatList, View, Center }  from "native-base";
 
 // Hooks
 import useFetch from "../../hooks/use-fetch";
@@ -54,7 +54,7 @@ const WinesList = () => {
   );
   const errorView = (
     <Center flex="1">
-      <ErrorComponent body={error} />
+      <ErrorComponent body={error} buttonText="Retry" onButtonPress={fetchWines}/>
     </Center>
   );
   const loadingView = (
