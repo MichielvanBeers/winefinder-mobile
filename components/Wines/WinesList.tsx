@@ -23,8 +23,8 @@ const WinesList = () => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        // Authorization: "Token 70574d887b0644a0936e07ddb1869762318b8e25",
-        Authorization: "Token ",
+        Authorization: "Token 70574d887b0644a0936e07ddb1869762318b8e25",
+        // Authorization: "Token ",
       },
     });
   };
