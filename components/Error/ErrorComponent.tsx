@@ -1,6 +1,9 @@
 // Native Base
 import { Image, Text, VStack } from "native-base";
 
+// React Native SVG
+import { SvgUri } from "react-native-svg";
+
 // Theme
 import colors from "../../theme/colors.json";
 
@@ -13,11 +16,7 @@ const ErrorComponent: React.FC<ErrorMessage> = (props) => {
 
   return (
     <VStack alignItems="center" m="8">
-      <Image
-        size="2xl"
-        alt="error image"
-        source={require("../../assets/wineBottle.png")}
-      />
+      <SvgUri width="100" height="100" uri={require('../../assets/error/errorSvg.svg')}/>
       <Text
         textAlign="center"
         color={colors["md.sys.color.primary"].nativeBase}
