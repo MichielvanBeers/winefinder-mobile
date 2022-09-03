@@ -1,32 +1,40 @@
 // Native Base
-import { Image, Text, VStack } from "native-base";
-
-// React Native SVG
-import { SvgUri } from "react-native-svg";
+import { Text, VStack, Image, Heading } from "native-base";
 
 // Theme
 import colors from "../../theme/colors.json";
 
 type ErrorMessage = {
-  message?: string;
+  header?: string;
+  body?: string
 };
 
 const ErrorComponent: React.FC<ErrorMessage> = (props) => {
-  const errorMessageString = String(props.message);
+  const errorHeaderString = String(props.header)
+  const errorBodyString = String(props.body);
 
   return (
-    <VStack alignItems="center" m="8">
-      <SvgUri width="100" height="100" uri={require('../../assets/error/errorSvg.svg')}/>
+    <VStack alignItems="center" space="3" maxWidth="60%">
+      <Image
+        source={require("../../assets/error/error.png")}
+        alt="Error Image"
+        size="xl"
+      />
+      <Heading color={colors["md.sys.color.primary"].nativeBase}>{errorHeaderString}</Heading>
       <Text
         textAlign="center"
         color={colors["md.sys.color.primary"].nativeBase}
         fontSize="xl"
-        marginTop="4"
       >
-        {errorMessageString ? errorMessageString : "An error occurred"}
+        {errorBodyString}
       </Text>
     </VStack>
   );
 };
+
+ErrorComponent.defaultProps = {
+  header: "Error",
+  body: "Something went wrong"
+}
 
 export default ErrorComponent;

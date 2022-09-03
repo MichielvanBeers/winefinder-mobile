@@ -54,7 +54,7 @@ const WinesList = () => {
   );
   const errorView = (
     <Center flex="1">
-      <ErrorComponent message={error} />
+      <ErrorComponent body={error} />
     </Center>
   );
   const loadingView = (
