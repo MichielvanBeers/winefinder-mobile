@@ -1,8 +1,9 @@
 // NativeBase
-import { Text, FlatList, View, Center }  from "native-base";
+import { Text, FlatList, View, Center } from "native-base";
 
-// Hooks
+// API & Hooks
 import useFetch from "../../hooks/use-fetch";
+import { useGetAllWinesQuery } from "../../store/api";
 
 // Components
 import Card from "../UI/Card";
@@ -12,26 +13,18 @@ import ErrorComponent from "../Error/ErrorComponent";
 import concatWineAttributes from "../../utils/concatWineAttributes";
 
 // Typescript types
-import { Wine } from "../../store/wines";
+import { Wine } from "../../store/wine.interface";
 import { useEffect } from "react";
 
-const WinesList = () => {
-  const { loading, error, data, fetchData } = useFetch();
-
-  const fetchWines = () => {
-    fetchData("http://192.168.1.184:9000/wines/", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Token 70574d887b0644a0936e07ddb1869762318b8e25",
-        // Authorization: "Token ",
-      },
-    });
+type ApiError = {
+  data: {
+    detai: string;
   };
+  status: number;
+};
 
-  useEffect(() => {
-    fetchWines();
-  }, []);
+const WinesList = () => {
+  const { data, error, isLoading } = useGetAllWinesQuery();
 
   const renderItem = ({ item }: { item: Wine }) => {
     return (
@@ -48,26 +41,37 @@ const WinesList = () => {
       data={data}
       keyExtractor={(item: any) => item.id}
       renderItem={renderItem}
-      onRefresh={fetchWines}
-      refreshing={loading}
+      // onRefresh={fetchWines}
+      refreshing={isLoading}
     />
   );
-  const errorView = (
-    <Center flex="1">
-      <ErrorComponent body={error} buttonText="Retry" onButtonPress={fetchWines}/>
-    </Center>
-  );
+
   const loadingView = (
     <Center flex="1">
       <Text>Loading...</Text>
     </Center>
   );
 
-  return <View width="100%" flex="1">
-    {error && errorView}
-    {loading && loadingView}
-    {data && dataView}
-  </View>;
+  if (error) {
+    if ("status" in error) {
+      if ("data" in error) {
+        return (
+          <View width="100%" flex="1">
+            <Center flex="1">
+              <ErrorComponent header={String(error.status)} body={JSON.stringify(error.data)} />
+            </Center>
+          </View>
+        );
+      }
+    }
+  } else {
+    return (
+      <View width="100%" flex="1">
+        {isLoading && loadingView}
+        {data && dataView}
+      </View>
+    );
+  }
 };
 
 export default WinesList;

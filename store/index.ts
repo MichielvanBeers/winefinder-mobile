@@ -1,12 +1,19 @@
 // Redux Toolkit
 import { configureStore } from "@reduxjs/toolkit";
+import { setupListeners } from "@reduxjs/toolkit/dist/query";
 
-// Reducer
-import userReducer from './user'
+// API
+import { wineApi } from "./api";
 
 const store = configureStore({
-    reducer: { user: userReducer}
+    reducer: {
+        [wineApi.reducerPath]: wineApi.reducer
+    },
+    middleware: (getDefaultMiddleware) => 
+    getDefaultMiddleware().concat(wineApi.middleware)
 })
+
+setupListeners(store.dispatch)
 
 export type Rootstate = ReturnType<typeof store.getState>
 

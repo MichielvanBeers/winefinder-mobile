@@ -1,4 +1,4 @@
-import { Grape, Type, Tag, Food, Region, Allergen } from "../store/wines";
+import { Grape, Type, Tag, Food, Region, Allergen } from "../store/wine.interface";
 
 type wineAttributes = (
   | Type[]
