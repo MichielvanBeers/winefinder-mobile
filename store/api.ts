@@ -10,10 +10,11 @@ export const wineApi = createApi({
   reducerPath: "wineApi",
   baseQuery: fetchBaseQuery({
     baseUrl: BACKEND_BASE_URL,
-    prepareHeaders: (headers, getState) => {
+    // Todo: add getState to retrieve token & base url from store: https://redux-toolkit.js.org/rtk-query/api/fetchBaseQuery
+    prepareHeaders: (headers) => {
       headers.set(
         "Authorization",
-        "Token 70574d887b0644a0936e07ddb1869762318b8e25"
+        "Token 70574d887b0644a0936e07ddb1869762318b8e25",
       );
       return headers;
     },

@@ -2,7 +2,6 @@
 import { Text, FlatList, View, Center } from "native-base";
 
 // API & Hooks
-import useFetch from "../../hooks/use-fetch";
 import { useGetAllWinesQuery } from "../../store/api";
 
 // Components
@@ -14,14 +13,6 @@ import concatWineAttributes from "../../utils/concatWineAttributes";
 
 // Typescript types
 import { Wine } from "../../store/wine.interface";
-import { useEffect } from "react";
-
-type ApiError = {
-  data: {
-    detai: string;
-  };
-  status: number;
-};
 
 const WinesList = () => {
   const { data, error, isLoading } = useGetAllWinesQuery();
@@ -63,6 +54,15 @@ const WinesList = () => {
           </View>
         );
       }
+    }
+    else {
+      return (
+        <View width="100%" flex="1">
+          <Center flex="1">
+            <ErrorComponent/>
+          </Center>
+        </View>
+      )
     }
   } else {
     return (
