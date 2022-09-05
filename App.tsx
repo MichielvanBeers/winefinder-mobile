@@ -36,7 +36,7 @@ export default function App() {
     <Provider store={store}>
       <StatusBar />
       <NativeBaseProvider>
-        {!isWifiConnected && <Notification />}
+        {!isWifiConnected && <Notification title="Please connect to your home wifi"/>}
         <Index />
       </NativeBaseProvider>
     </Provider>
