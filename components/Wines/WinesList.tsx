@@ -13,7 +13,7 @@ import WinesLoading from "./WinesLoading";
 import WinesFetching from "./WinesFetching";
 
 // Theming
-import colors from '../../theme/colors.json'
+import colors from "../../theme/colors.json";
 
 // Utils
 import concatWineAttributes from "../../utils/concatWineAttributes";
@@ -26,6 +26,9 @@ import { useEffect } from "react";
 const WinesList = () => {
   const [trigger, { data, error, isLoading, isFetching }] =
     useLazyGetAllWinesQuery();
+
+  console.log(error);
+
   const [showSnackbar, setShowSnackBar] = useState(false);
 
   const dissmissSnackbarHandler = () => {
@@ -70,7 +73,11 @@ const WinesList = () => {
     <Snackbar
       onDismiss={dissmissSnackbarHandler}
       visible={showSnackbar}
-      action={{ label: "Retry", onPress: fetchWineOnWifi, color: colors["md.sys.color.primary-container"].hex }}
+      action={{
+        label: "Retry",
+        onPress: fetchWineOnWifi,
+        color: colors["md.sys.color.primary-container"].hex,
+      }}
       duration={Infinity}
     >
       Please connect to your home wifi
@@ -88,6 +95,7 @@ const WinesList = () => {
               header={String(error.status)}
               body={JSON.stringify(error.data)}
               onButtonPress={fetchWineOnWifi}
+              isLoading={isFetching}
             />
           </Center>
         </View>
@@ -96,7 +104,10 @@ const WinesList = () => {
       errorView = (
         <View width="100%" flex="1">
           <Center flex="1">
-            <ErrorComponent onButtonPress={fetchWineOnWifi} />
+            <ErrorComponent
+              onButtonPress={fetchWineOnWifi}
+              isLoading={isFetching}
+            />
           </Center>
         </View>
       );

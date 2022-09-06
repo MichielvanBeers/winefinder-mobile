@@ -8,6 +8,7 @@ type ErrorMessage = {
   header?: string;
   body?: string;
   buttonText?: string;
+  isLoading?: boolean
   onButtonPress?: () => void;
 };
 
@@ -33,7 +34,7 @@ const ErrorComponent: React.FC<ErrorMessage> = (props) => {
         {errorBodyString}
       </Text>
       {props.onButtonPress ? (
-        <Button px="6" backgroundColor={colors["md.sys.color.primary"].nativeBase} borderRadius="3xl" onPress={props.onButtonPress}>{props.buttonText}</Button>
+        <Button px="6" backgroundColor={colors["md.sys.color.primary"].nativeBase} borderRadius="3xl" onPress={props.onButtonPress} isLoading={props.isLoading}>{props.buttonText}</Button>
       ) : null}
     </VStack>
   );
