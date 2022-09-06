@@ -26,4 +26,4 @@ export const wineApi = createApi({
   }),
 });
 
-export const { useGetAllWinesQuery } = wineApi;
+export const { useLazyGetAllWinesQuery } = wineApi;

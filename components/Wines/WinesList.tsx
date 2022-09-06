@@ -1,13 +1,19 @@
-// NativeBase
-import { FlatList, View, Center } from "native-base";
+// React
+import { useState } from "react";
 
 // API & Hooks
-import { useGetAllWinesQuery } from "../../store/api";
+import { useLazyGetAllWinesQuery } from "../../store/api";
 
-// Components
+// UI Components
+import { FlatList, View, Center } from "native-base";
 import Card from "../UI/Card";
 import ErrorComponent from "../Error/ErrorComponent";
-import LoadingSpinner from "../UI/LoadingSpinner";
+import { Snackbar } from "react-native-paper";
+import WinesLoading from "./WinesLoading";
+import WinesFetching from "./WinesFetching";
+
+// Theming
+import colors from '../../theme/colors.json'
 
 // Utils
 import concatWineAttributes from "../../utils/concatWineAttributes";
@@ -15,17 +21,30 @@ import NetInfo from "@react-native-community/netinfo";
 
 // Typescript types
 import { Wine } from "../../store/wine.interface";
+import { useEffect } from "react";
 
 const WinesList = () => {
-  const { data, error, isLoading, isFetching, refetch } = useGetAllWinesQuery();
+  const [trigger, { data, error, isLoading, isFetching }] =
+    useLazyGetAllWinesQuery();
+  const [showSnackbar, setShowSnackBar] = useState(false);
 
-  const listRefreshHandler = () => {
+  const dissmissSnackbarHandler = () => {
+    setShowSnackBar(false);
+  };
+
+  const fetchWineOnWifi = () => {
     NetInfo.fetch().then((state) => {
       if (state.type === "wifi") {
-        refetch();
+        trigger();
+      } else {
+        setShowSnackBar(true);
       }
     });
   };
+
+  useEffect(() => {
+    fetchWineOnWifi();
+  }, []);
 
   const renderItem = ({ item }: { item: Wine }) => {
     return (
@@ -42,56 +61,57 @@ const WinesList = () => {
       data={data}
       keyExtractor={(item: any) => item.id}
       renderItem={renderItem}
-      onRefresh={listRefreshHandler}
+      onRefresh={fetchWineOnWifi}
       refreshing={isLoading}
     />
   );
 
-  let loadingView = null;
+  const snackbarView = (
+    <Snackbar
+      onDismiss={dissmissSnackbarHandler}
+      visible={showSnackbar}
+      action={{ label: "Retry", onPress: fetchWineOnWifi, color: colors["md.sys.color.primary-container"].hex }}
+      duration={Infinity}
+    >
+      Please connect to your home wifi
+    </Snackbar>
+  );
 
-  if (isLoading) {
-    loadingView = (
-      <Center flex="1">
-        <LoadingSpinner message="Loading wines.." vertical />
-      </Center>
-    );
-  } else if (isFetching) {
-    loadingView = (
-      <Center m="3">
-        <LoadingSpinner />
-      </Center>
-    );
-  }
+  let errorView = null;
 
   if (error) {
     if ("status" in error && "data" in error) {
-      return (
+      errorView = (
         <View width="100%" flex="1">
           <Center flex="1">
             <ErrorComponent
               header={String(error.status)}
               body={JSON.stringify(error.data)}
+              onButtonPress={fetchWineOnWifi}
             />
           </Center>
         </View>
       );
     } else {
-      return (
+      errorView = (
         <View width="100%" flex="1">
           <Center flex="1">
-            <ErrorComponent />
+            <ErrorComponent onButtonPress={fetchWineOnWifi} />
           </Center>
         </View>
       );
     }
-  } else {
-    return (
-      <View width="100%" flex="1">
-        {loadingView}
-        {data && dataView}
-      </View>
-    );
   }
+
+  return (
+    <View width="100%" flex="1">
+      {isFetching && isLoading && !error ? <WinesLoading /> : null}
+      {isFetching && !isLoading && !error ? <WinesFetching /> : null}
+      {error && errorView}
+      {data && dataView}
+      {showSnackbar && snackbarView}
+    </View>
+  );
 };
 
 export default WinesList;
