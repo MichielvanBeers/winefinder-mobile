@@ -36,7 +36,7 @@ export type ReceivedFrom = {
 };
 
 export type Wine = {
-  id: number;
+  id?: number;
   grape?: Grape[];
   type?: Type[];
   tag?: Tag[];
@@ -53,5 +53,5 @@ export type Wine = {
   score?: string;
   country?: string;
   image?: string;
-  drank_image: string;
+  drank_image?: string;
 };

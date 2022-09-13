@@ -27,8 +27,6 @@ const WinesList = () => {
   const [trigger, { data, error, isLoading, isFetching }] =
     useLazyGetAllWinesQuery();
 
-  console.log(error);
-
   const [showSnackbar, setShowSnackBar] = useState(false);
 
   const dissmissSnackbarHandler = () => {
