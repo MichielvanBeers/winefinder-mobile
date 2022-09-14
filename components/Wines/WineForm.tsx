@@ -43,7 +43,7 @@ const WineForm: React.FC<Wine> = (props) => {
         return (
           <VStack flex="1" width="80%" space="3" alignItems="center" mt="4">
             <Heading>Add a wine 🍷</Heading>
-            <FormControl>
+            <FormControl isInvalid={errors.name ? true : false}>
               <FormControl.Label>Name</FormControl.Label>
               <Input
                 name="name"
