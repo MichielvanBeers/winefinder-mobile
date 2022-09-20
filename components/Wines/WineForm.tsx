@@ -1,11 +1,12 @@
 // Native Base
 import { VStack, Heading, Input, Button, FormControl, Text } from "native-base";
 
-// Formik
-import { Formik, FormikHelpers } from "formik";
-
-// Form validation
+// Formik & Form validation
+import { Formik } from "formik";
 import * as Yup from "yup";
+
+// API & Hooks
+import { useAddWineMutation } from "../../store/api";
 
 // Types
 import { Wine } from "../../store/wine.interface";
@@ -13,23 +14,21 @@ import { Wine } from "../../store/wine.interface";
 // Theme
 import colors from "../../theme/colors.json"
 
-// interface WineProps extends Wine {
-//   onSubmit: ((
-//     values: { name: string | undefined },
-//     formikHelpers: FormikHelpers<{ name: string | undefined }>
-//   ) => void | Promise<any>) &
-//     ((values: any) => {});
-// }
-
 const WineForm: React.FC<Wine> = (props) => {
+  const [ addWine, { isLoading, data, error } ] = useAddWineMutation()
+  console.log(data)
+  console.log(error)
+
   return (
     <Formik
       initialValues={{
         name: props.name,
       }}
-      onSubmit={(values) => console.log(values)}
+      onSubmit={(values) => addWine(values)}
       validationSchema={Yup.object({
-        name: Yup.string().min(4, "Name must be at least 4 characters"),
+        name: Yup
+        .string()
+        .min(1, "Name must be at least 1 characters"),
       })}
     >
       {({
@@ -56,11 +55,14 @@ const WineForm: React.FC<Wine> = (props) => {
               <FormControl.ErrorMessage>{errors.name}</FormControl.ErrorMessage>
             </FormControl>
             <Button
+              // @ts-ignore
               onPress={handleSubmit}
               width="100%"
               px="6"
               backgroundColor={colors["md.sys.color.primary"].nativeBase}
               borderRadius="3xl"
+              isLoading={isLoading}
+              isLoadingText="Saving wine"
             >
               Save
             </Button>

@@ -14,16 +14,44 @@ export const wineApi = createApi({
     prepareHeaders: (headers) => {
       headers.set(
         "Authorization",
-        "Token 70574d887b0644a0936e07ddb1869762318b8e25",
+        "Token 70574d887b0644a0936e07ddb1869762318b8e25"
       );
       return headers;
     },
   }),
+  tagTypes: ["Wine"],
   endpoints: (builder) => ({
     getAllWines: builder.query<Wine[], void>({
       query: () => "/wines",
     }),
+    addWine: builder.mutation<Wine, Omit<Wine, "id">>({
+      query(body) {
+        return {
+          url: "/wines/",
+          method: "POST",
+          body: {
+            ...body,
+            grape: [],
+            type: [],
+            tag: [],
+            food: [],
+            region: [],
+            allergen: [],
+            received_from: [],
+            date_added: null,
+            archived: false,
+            archived_date: null,
+            year: null,
+            price: null,
+            score: null,
+            country: null,
+            image: null,
+            drank_image: null,
+          },
+        };
+      },
+    }),
   }),
 });
 
-export const { useLazyGetAllWinesQuery } = wineApi;
+export const { useLazyGetAllWinesQuery, useAddWineMutation } = wineApi;
