@@ -116,8 +116,8 @@ const WinesList = () => {
     <View width="100%" flex="1">
       {isFetching && isLoading && !error ? <WinesLoading /> : null}
       {isFetching && !isLoading && !error ? <WinesFetching /> : null}
+      {data && !error ? dataView : null}
       {error && errorView}
-      {data && dataView}
       {showSnackbar && snackbarView}
     </View>
   );
