@@ -2,7 +2,7 @@
 import { useState } from "react";
 
 // API & Hooks
-import { useLazyGetAllWinesQuery } from "../../store/api";
+import { useLazyGetAllWinesQuery, useLazyGetAllGrapesQuery } from "../../store/api";
 
 // UI Components
 import { FlatList, View, Center } from "native-base";
@@ -24,7 +24,7 @@ import { Wine } from "../../store/wine.interface";
 import { useEffect } from "react";
 
 const WinesList = () => {
-  const [trigger, { data, error, isLoading, isFetching }] =
+  const [getWinesTrigger, { data, error, isLoading, isFetching }] =
     useLazyGetAllWinesQuery();
 
   const [showSnackbar, setShowSnackBar] = useState(false);
@@ -36,7 +36,7 @@ const WinesList = () => {
   const fetchWineOnWifi = () => {
     NetInfo.fetch().then((state) => {
       if (state.type === "wifi") {
-        trigger();
+        getWinesTrigger();
       } else {
         setShowSnackBar(true);
       }

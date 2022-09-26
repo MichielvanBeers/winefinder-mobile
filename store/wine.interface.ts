@@ -1,37 +1,37 @@
 // Define Types
 export type Grape = {
-  id: number;
+  id?: number;
   name: string;
 };
 
 export type Type = {
-  id: number;
+  id?: number;
   name: string;
 };
 
 export type Tag = {
-  id: number;
+  id?: number;
   name: string;
 };
 
 export type Food = {
-  id: number;
+  id?: number;
   name: string;
   category: number[];
 };
 
 export type Region = {
-  id: number;
+  id?: number;
   name: string;
 };
 
 export type Allergen = {
-  id: number;
+  id?: number;
   name: string;
 };
 
 export type ReceivedFrom = {
-  id: number;
+  id?: number;
   name: string;
 };
 

@@ -2,7 +2,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 // Wine type
-import { Wine } from "./wine.interface";
+import { Wine, Grape } from "./wine.interface";
 
 const BACKEND_BASE_URL = "http://192.168.1.184:9000/";
 
@@ -51,7 +51,10 @@ export const wineApi = createApi({
         };
       },
     }),
+    getAllGrapes: builder.query<Grape[], void>({
+      query: () => "/wines/grapes/",
+    })
   }),
 });
 
-export const { useLazyGetAllWinesQuery, useAddWineMutation } = wineApi;
+export const { useLazyGetAllWinesQuery, useAddWineMutation, useLazyGetAllGrapesQuery } = wineApi;
